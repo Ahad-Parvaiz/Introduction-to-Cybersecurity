@@ -26,13 +26,9 @@ project-folder/
 4. Click the ⬇️ Download PDF button to open or download the PDF.
 
    🌐 Live Demo:
-   🧑‍💻 Author
-Ahad Parvaiz
+🧑‍💻 Author
+**Ahad Parvaiz**
 
 ⭐ If you like this project, consider giving it a star on GitHub!
 
 ---
-
-👉 Isme maine tumhare project ka **overview, features, usage steps, structure, aur author info** add kar diya hai.  
-Chaho to mai tumhare liye **preview screenshot ka placeholder** bhi bana dun jahan tum screenshot attach kar sako.  
-Batao, kya tum chahte ho ke mai tumhe **screenshots add karne ka code/guide** bhi de dun README me?
