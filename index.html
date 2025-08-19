@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to Cybersecurity</title>
+<meta name="description" content="Interactive, professional introduction to cybersecurity with inline animated illustrations.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c111b;
+    --surface:#121a2a;
+    --ink:#eaf1ff;
+    --muted:#9aa6bd;
+    --accent:#66d0ff;
+    --accent-2:#7cffa6;
+    --border:rgba(255,255,255,.12);
+    --glass:rgba(255,255,255,.06);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--ink); background:
+      radial-gradient(1000px 600px at -10% -10%, #14253b 0%, #0c111b 55%) fixed,
+      radial-gradient(1000px 600px at 110% 10%, #0e1c2f 0%, #0c111b 45%) fixed,
+      var(--bg);
+    line-height:1.6; overflow-x:hidden;
+  }
+  a{color:var(--accent); text-decoration:none}
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:1000;
+    background:rgba(18,26,42,.85); backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{max-width:1180px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; gap:12px}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:800; color:var(--ink)}
+  .brand .cube{width:34px; height:34px; position:relative; perspective:600px}
+  .brand .cube span{
+    position:absolute; inset:0; border-radius:10px;
+    background:linear-gradient(135deg,#1b2b47,#0ea5e9);
+    box-shadow:0 10px 22px rgba(8,189,255,.25), inset 0 0 0 1px rgba(255,255,255,.15);
+    transform:rotateX(18deg) rotateY(-22deg);
+  }
+  .links{margin-left:auto; display:flex; flex-wrap:wrap; gap:8px}
+  .links a{padding:8px 10px; border-radius:10px}
+  .links a:hover,.links a.active{background:var(--glass); border:1px solid var(--border)}
+  .cta{
+    margin-left:8px; border:0; cursor:pointer; border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),#7c9cff); color:#02121c;
+    padding:9px 12px; font-weight:800; box-shadow:0 8px 22px rgba(102,208,255,.35);
+  }
+  /* HERO */
+  header{border-bottom:1px solid var(--border)}
+  .hero{
+    max-width:1180px; margin:0 auto; padding:70px 18px; display:grid; gap:28px;
+    grid-template-columns:1.2fr 1fr;
+  }
+  @media (max-width:950px){ .hero{grid-template-columns:1fr} }
+  .kicker{color:var(--muted); letter-spacing:.18em; text-transform:uppercase; font-size:.92rem}
+  h1{font-size:clamp(2rem,3.6vw + .8rem,3.2rem); line-height:1.08; margin:.3em 0 .2em}
+  .lead{color:#d6e6ff; font-size:1.08rem}
+  .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+  .btn{appearance:none; border:1px solid var(--border); background:var(--glass); color:var(--ink); padding:10px 12px; border-radius:10px; cursor:pointer}
+  .btn:hover{background:rgba(255,255,255,.08)}
+  /* Sections */
+  section{max-width:1180px; margin:0 auto; padding:70px 18px}
+  section h2{font-size:clamp(1.5rem,2vw + .6rem,2.2rem); margin-bottom:.5em}
+  .grid-3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  @media (max-width:1000px){ .grid-3{grid-template-columns:1fr 1fr} }
+  @media (max-width:700px){ .grid-3,.grid-2{grid-template-columns:1fr} }
+  .card{
+    background:linear-gradient(180deg,rgba(18,26,42,.8),rgba(14,20,34,.8));
+    border:1px solid var(--border); border-radius:var(--radius); padding:18px;
+    transform-style:preserve-3d; transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 10px 28px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .card:hover{transform:translateY(-4px) rotateX(2deg) rotateY(-2deg)}
+  .panel{background:linear-gradient(180deg,rgba(16,24,41,.75),rgba(10,16,27,.75)); border:1px solid var(--border); border-radius:var(--radius); padding:18px}
+  .pill{display:inline-block; background:var(--glass); border:1px solid var(--border); border-radius:999px; padding:6px 10px; color:var(--muted); font-size:.9rem}
+  table{width:100%; border-collapse:collapse; border:1px solid var(--border); border-radius:12px; overflow:hidden}
+  th,td{padding:12px; border-bottom:1px solid var(--border); text-align:left}
+  tr:hover td{background:rgba(255,255,255,.03)}
+  footer{padding:50px 18px; border-top:1px solid var(--border); color:var(--muted); text-align:center}
+  /* Reveal on scroll */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1; transform:none}
+  /* Inline SVG sizing */
+  .illus{width:100%; height:auto; max-width:560px; margin:14px auto 0; display:block}
+  .illus-sm{max-width:440px}
+  /* SVG animations */
+  @keyframes floatY { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+  @keyframes dash { from{stroke-dashoffset:120} to{stroke-dashoffset:0} }
+  @keyframes blink { 0%,92%,100%{opacity:1} 96%{opacity:.2} }
+  @keyframes shimmer { 0%{transform:translateX(-60%)} 100%{transform:translateX(160%)} }
+  svg .float{animation: floatY 4s ease-in-out infinite}
+  svg .pulse{animation: pulse 2.4s ease-in-out infinite}
+  svg .dash{stroke-dasharray:120; animation: dash 2s ease forwards}
+  svg .blink{animation: blink 3.2s ease-in-out infinite}
+  svg .shimmer{animation: shimmer 2.2s linear infinite}
+  /* Back to top button */
+  .to-top{position:fixed; right:18px; bottom:18px; display:none; z-index:1000}
+</style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="cube"><span></span></span>
+        <span>Intro to Cybersecurity</span>
+      </a>
+      <div class="links" id="navlinks">
+        <a href="#cia">CIA Triad</a>
+        <a href="#hackers">Hackers</a>
+        <a href="#ethical">Ethical</a>
+        <a href="#subfields">Sub-fields</a>
+        <a href="#teams">Teams</a>
+        <a href="#pentest">Pentest</a>
+        <a href="#ports">Ports</a>
+        <a href="#vuln">Vulnerabilities</a>
+        <a href="#career">Career</a>
+        <a href="#basics">Basics</a>
+      </div>
+      <button class="cta" onclick="downloadPDF()">⬇️ Download PDF</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top">
+    <div class="hero">
+      <div class="reveal in">
+        <div class="kicker">Cybersecurity 101 🔐</div>
+        <h1>Understand, defend, and plan your path</h1>
+        <p class="lead">A clean, professional guide to core security ideas. From the CIA triad and hacker types to pentesting, ports, and careers.</p>
+        <div class="row">
+          <a class="btn" href="#cia">Explore CIA Triad</a>
+          <a class="btn" href="#subfields">See Sub-fields</a>
+          <a class="btn" href="#career">Plan Your Career</a>
+        </div>
+      </div>
+      <div class="panel reveal in">
+        <!-- HERO ILLUSTRATION: Shield + Grid -->
+        <svg class="illus" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cyber shield">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3ac8ff"/>
+              <stop offset="100%" stop-color="#7cffc0"/>
+            </linearGradient>
+            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="rgba(255,255,255,.0)"/>
+              <stop offset="40%" stop-color="rgba(255,255,255,.35)"/>
+              <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+            </linearGradient>
+          </defs>
+          <!-- grid -->
+          <g opacity=".25">
+            <path d="M40 40 H520 M40 90 H520 M40 140 H520 M40 190 H520 M40 240 H520 M40 290 H520" stroke="#9aa6bd" stroke-width="1"/>
+            <path d="M100 20 V320 M160 20 V320 M220 20 V320 M280 20 V320 M340 20 V320 M400 20 V320 M460 20 V320" stroke="#9aa6bd" stroke-width="1"/>
+          </g>
+          <!-- shield -->
+          <path class="float" d="M280 70 l90 30 v70c0 86-90 120-90 120s-90-34-90-120V100z" fill="url(#g1)" opacity=".22"/>
+          <path class="float" d="M280 80 l82 28 v60c0 78-82 108-82 108s-82-30-82-108v-60z" fill="none" stroke="url(#g1)" stroke-width="3"/>
+          <!-- lock -->
+          <rect x="240" y="150" width="80" height="70" rx="10" fill="#0f1a2e" stroke="url(#g1)" stroke-width="3"/>
+          <rect x="255" y="162" width="50" height="46" rx="6" fill="#0c1527" stroke="#66d0ff" stroke-width="2"/>
+          <circle class="pulse" cx="280" cy="185" r="6" fill="#7cffc0"/>
+          <!-- shimmer -->
+          <rect class="shimmer" x="-60" y="145" width="60" height="85" fill="url(#shine)"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- CIA TRIAD -->
+  <section id="cia" class="reveal">
+    <h2>Principles of Information Security: CIA Triad 🔑</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Confidentiality 🔒</h3>
+        <p>Only authorized people can view the information. Use access control and encryption.</p>
+      </div>
+      <div class="card">
+        <h3>Integrity 🧭</h3>
+        <p>Data stays accurate and complete. Use hashing and change control.</p>
+      </div>
+      <div class="card">
+        <h3>Availability 📡</h3>
+        <p>Authorized users can access data when needed. Design for redundancy and backups.</p>
+      </div>
+    </div>
+    <!-- CIA illustration: three rings -->
+    <svg class="illus illus-sm" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CIA rings">
+      <circle cx="200" cy="110" r="70" fill="none" stroke="#66d0ff" stroke-width="4" class="dash"/>
+      <circle cx="260" cy="110" r="70" fill="none" stroke="#7cffc0" stroke-width="4" class="dash" style="animation-delay:.2s"/>
+      <circle cx="230" cy="110" r="70" fill="none" stroke="#9aa6bd" stroke-width="4" class="dash" style="animation-delay:.4s"/>
+      <text x="180" y="115" fill="#cfe7ff" font-size="14">C</text>
+      <text x="255" y="115" fill="#cfe7ff" font-size="14">I</text>
+      <text x="225" y="115" fill="#cfe7ff" font-size="14">A</text>
+    </svg>
+  </section>
+
+  <!-- HACKERS -->
+  <section id="hackers" class="reveal">
+    <h2>Hackers 👩‍💻👨‍💻</h2>
+    <div class="grid-3">
+      <div class="card"><h3>White Hat 🤍</h3><p>Works with organizations to find and fix issues.</p></div>
+      <div class="card"><h3>Gray Hat 🩶</h3><p>May cross lines without harmful intent, methods can be questionable.</p></div>
+      <div class="card"><h3>Black Hat 🖤</h3><p>Breaks in, steals data, or causes harm for gain.</p></div>
+    </div>
+    <!-- Hacker illustration: laptop + code pulse -->
+    <svg class="illus" viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hacker laptop">
+      <rect x="120" y="80" width="320" height="110" rx="10" fill="#0f1a2e" stroke="#66d0ff" stroke-width="3"/>
+      <rect x="135" y="95" width="290" height="60" rx="6" fill="#0b1526" />
+      <g class="blink">
+        <rect x="150" y="110" width="80" height="6" rx="3" fill="#66d0ff"/>
+        <rect x="240" y="110" width="50" height="6" rx="3" fill="#7cffc0"/>
+        <rect x="300" y="110" width="90" height="6" rx="3" fill="#66d0ff"/>
+      </g>
+      <rect x="100" y="190" width="360" height="12" rx="6" fill="#1a2540"/>
+    </svg>
+  </section>
+
+  <!-- ETHICAL -->
+  <section id="ethical" class="reveal">
+    <h2>Ethical Hacker 🛡️</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <p>Tests and strengthens systems, networks, and data. Runs pentests, vulnerability analysis, and risk assessments. Requires skill and clear permission.</p>
+        <div class="row" style="margin-top:10px">
+          <span class="pill">✅ With permission</span>
+          <span class="pill">⚠️ Scoped work</span>
+          <span class="pill">⛔ No unauthorized access</span>
+        </div>
+      </div>
+      <div class="panel">
+        <!-- Shield with tick -->
+        <svg class="illus" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shield check">
+          <path class="float" d="M260 40 l90 30 v70c0 76-90 106-90 106s-90-30-90-106V70z" fill="none" stroke="#66d0ff" stroke-width="3"/>
+          <path d="M220 120 l30 30 60-60" fill="none" stroke="#7cffc0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBFIELDS -->
+  <section id="subfields" class="reveal">
+    <h2>Sub-fields of Cybersecurity 🧭</h2>
+    <div class="grid-3">
+      <div class="card">Application Security 🧩</div>
+      <div class="card">Web App Security 🌐</div>
+      <div class="card">Network Security 🌉</div>
+      <div class="card">Cloud Security ☁️</div>
+      <div class="card">IoT Security 🔗</div>
+      <div class="card">Digital Forensics 🧪</div>
+    </div>
+    <!-- Cloud illustration -->
+    <svg class="illus" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cloud security">
+      <g class="float">
+        <ellipse cx="230" cy="120" rx="90" ry="44" fill="#10203a" stroke="#66d0ff" stroke-width="3"/>
+        <ellipse cx="310" cy="120" rx="100" ry="50" fill="#0f1a2e" stroke="#7cffc0" stroke-width="3"/>
+        <rect x="250" y="95" width="60" height="50" rx="8" fill="#0b1526" stroke="#66d0ff" stroke-width="2"/>
+        <circle cx="280" cy="120" r="6" fill="#7cffc0"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- TEAMS -->
+  <section id="teams" class="reveal">
+    <h2>Security Teams 🧑‍🚀</h2>
+    <ul style="list-style:none; max-width:720px; margin:0 auto; padding:0">
+      <li><strong>Red Team</strong> 🎯 — simulates attackers and finds real paths in.</li>
+      <li><strong>Blue Team</strong> 🛡️ — defends, monitors, and responds.</li>
+      <li><strong>Purple Team</strong> 🟣 — bridges red and blue to improve results.</li>
+      <li><strong>Bug Bounty</strong> 💰 — researchers report scoped bugs for rewards.</li>
+    </ul>
+    <!-- Team nodes -->
+    <svg class="illus illus-sm" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Team network">
+      <circle cx="260" cy="110" r="18" fill="#7cffc0"/>
+      <circle cx="160" cy="70" r="12" fill="#66d0ff" class="float"/>
+      <circle cx="360" cy="70" r="12" fill="#66d0ff" class="float" style="animation-delay:.5s"/>
+      <circle cx="130" cy="150" r="12" fill="#66d0ff" class="float" style="animation-delay:.2s"/>
+      <circle cx="390" cy="150" r="12" fill="#66d0ff" class="float" style="animation-delay:.7s"/>
+      <path d="M160 70 L260 110 L360 70 M130 150 L260 110 L390 150" stroke="#9aa6bd" stroke-width="2" fill="none"/>
+    </svg>
+  </section>
+
+  <!-- PENTEST -->
+  <section id="pentest" class="reveal">
+    <h2>Penetration Testing 🔎</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Types</h3>
+        <p>White Box, Gray Box, Black Box testing.</p>
+      </div>
+      <div class="card">
+        <h3>Methodologies</h3>
+        <p>OWASP, OSSTMM, and NIST guide structured assessments.</p>
+      </div>
+    </div>
+    <!-- Magnifier over code -->
+    <svg class="illus" viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Analyze code">
+      <rect x="60" y="40" width="300" height="120" rx="10" fill="#0f1a2e" stroke="#66d0ff" stroke-width="3"/>
+      <g opacity=".9">
+        <rect x="80" y="70" width="80" height="8" rx="4" fill="#66d0ff"/>
+        <rect x="80" y="90" width="120" height="8" rx="4" fill="#7cffc0"/>
+        <rect x="80" y="110" width="150" height="8" rx="4" fill="#66d0ff"/>
+      </g>
+      <g class="float">
+        <circle cx="370" cy="110" r="36" fill="none" stroke="#7cffc0" stroke-width="6"/>
+        <line x1="395" y1="135" x2="430" y2="170" stroke="#9aa6bd" stroke-width="8" stroke-linecap="round"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- PORTS -->
+  <section id="ports" class="reveal">
+    <h2>Ports and Services 🌐</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <table aria-label="Common ports and services">
+          <thead><tr><th>Port</th><th>Service / Protocol</th></tr></thead>
+          <tbody>
+            <tr><td>21</td><td>FTP</td></tr>
+            <tr><td>22</td><td>SSH</td></tr>
+            <tr><td>23</td><td>Telnet</td></tr>
+            <tr><td>25</td><td>SMTP</td></tr>
+            <tr><td>53</td><td>DNS</td></tr>
+            <tr><td>80</td><td>HTTP</td></tr>
+            <tr><td>443</td><td>HTTPS</td></tr>
+            <tr><td>3306</td><td>MySQL</td></tr>
+            <tr><td>3389</td><td>RDP</td></tr>
+            <tr><td>5432</td><td>PostgreSQL</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <!-- Server rack lines -->
+        <svg class="illus" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Server rack">
+          <rect x="120" y="40" width="280" height="160" rx="10" fill="#0f1a2e" stroke="#66d0ff" stroke-width="3"/>
+          <g class="blink">
+            <rect x="150" y="70" width="220" height="14" rx="7" fill="#1a2540"/>
+            <circle cx="380" cy="77" r="4" fill="#7cffc0"/>
+          </g>
+          <g class="blink" style="animation-delay:.6s">
+            <rect x="150" y="105" width="220" height="14" rx="7" fill="#1a2540"/>
+            <circle cx="380" cy="112" r="4" fill="#66d0ff"/>
+          </g>
+          <g class="blink" style="animation-delay:1.2s">
+            <rect x="150" y="140" width="220" height="14" rx="7" fill="#1a2540"/>
+            <circle cx="380" cy="147" r="4" fill="#7cffc0"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- VULNERABILITIES -->
+  <section id="vuln" class="reveal">
+    <h2>Vulnerabilities and Exploits 🧨</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <ul>
+          <li><strong>Vulnerability</strong> — a weakness that allows misuse.</li>
+          <li><strong>OWASP Top 10</strong> — critical web app risks.</li>
+          <li><strong>CVE</strong> — public identifiers for known issues.</li>
+          <li><strong>CVSS</strong> — standardized severity scoring.</li>
+          <li><strong>Exploit</strong> — code or technique that abuses a flaw.</li>
+          <li><strong>Zero-day</strong> — unknown or unpatched vulnerability.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <!-- Bug icon -->
+        <svg class="illus illus-sm" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bug">
+          <ellipse cx="260" cy="120" rx="38" ry="28" fill="#7cffc0" opacity=".18"/>
+          <ellipse class="float" cx="260" cy="110" rx="30" ry="22" fill="#66d0ff"/>
+          <line x1="230" y1="100" x2="200" y2="90" stroke="#9aa6bd" stroke-width="4" stroke-linecap="round"/>
+          <line x1="230" y1="120" x2="200" y2="130" stroke="#9aa6bd" stroke-width="4" stroke-linecap="round"/>
+          <line x1="290" y1="100" x2="320" y2="90" stroke="#9aa6bd" stroke-width="4" stroke-linecap="round"/>
+          <line x1="290" y1="120" x2="320" y2="130" stroke="#9aa6bd" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREER -->
+  <section id="career" class="reveal">
+    <h2>Career in Cybersecurity 💼</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <p>Security roles keep growing. Build fundamentals, choose a focus, practice in labs and CTFs, and document your work.</p>
+        <ul>
+          <li>Foundations: networking, OS, scripting</li>
+          <li>Focus: web, cloud, DFIR, threat intel</li>
+          <li>Practice: labs, bug bounty (in scope)</li>
+          <li>Portfolio: blog, notes, projects</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <!-- Roadmap steps -->
+        <svg class="illus illus-sm" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Career roadmap">
+          <path d="M100 170 C160 120, 220 120, 280 170 S400 220, 460 170" fill="none" stroke="#66d0ff" stroke-width="3"/>
+          <circle cx="100" cy="170" r="6" fill="#7cffc0"/>
+          <circle cx="220" cy="140" r="6" fill="#7cffc0"/>
+          <circle cx="340" cy="165" r="6" fill="#7cffc0"/>
+          <circle cx="460" cy="170" r="6" fill="#7cffc0"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- BASICS -->
+  <section id="basics" class="reveal">
+    <h2>Basic Terms 📗</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Shell 🐚</h3>
+        <p>Interface to run OS commands. Types: bind, reverse, web shell.</p>
+      </div>
+      <div class="card">
+        <h3>IP Address 🌍</h3>
+        <p>Unique device identifier. IPv4 (32-bit), IPv6 (128-bit).</p>
+      </div>
+      <div class="card">
+        <h3>Availability Tools 🧰</h3>
+        <p>Backups, redundancy, failover, and DDoS protection.</p>
+      </div>
+    </div>
+    <!-- Internet globe -->
+    <svg class="illus illus-sm" viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Internet globe">
+      <circle cx="260" cy="110" r="60" fill="none" stroke="#66d0ff" stroke-width="3"/>
+      <ellipse cx="260" cy="110" rx="60" ry="24" fill="none" stroke="#7cffc0" stroke-width="3"/>
+      <ellipse cx="260" cy="110" rx="24" ry="60" fill="none" stroke="#7cffc0" stroke-width="3"/>
+      <path d="M200 110 H320" stroke="#9aa6bd" stroke-width="2"/>
+      <path d="M260 50 V170" stroke="#9aa6bd" stroke-width="2"/>
+    </svg>
+  </section>
+
+  <footer>
+    <p>© <span id="year"></span> Intro to Cybersecurity • Ahad Parvaiz</p>
+    <div class="row" style="justify-content:center; margin-top:10px">
+      <a class="btn" href="#top">Back to top ⬆️</a>
+    </div>
+  </footer>
+
+  <button class="btn to-top" id="toTop" aria-label="Back to top" onclick="scrollToId('top')">⬆️</button>
+
+<script>
+  // Smooth scroll
+  function scrollToId(id){ const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  function downloadPDF(){ window.location.href = 'Introduction To Cybersecurity .pdf'; }
+
+  // Active link highlighting + reveal on scroll
+  const ids = ['cia','hackers','ethical','subfields','teams','pentest','ports','vuln','career','basics'];
+  const navlinks = document.querySelectorAll('#navlinks a');
+  const map = {}; navlinks.forEach(a => map[a.getAttribute('href').slice(1)] = a);
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.id;
+        navlinks.forEach(a=>a.classList.remove('active'));
+        if(map[id]) map[id].classList.add('active');
+        e.target.classList.add('in');
+      }
+    });
+  }, {rootMargin:'-40% 0px -45% 0px', threshold:.05});
+
+  ids.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.classList.add('reveal'); io.observe(el); }
+  });
+
+  // 3D tilt on cards
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      const rx = ((y / r.height) - 0.5) * -6;
+      const ry = ((x / r.width) - 0.5) * 6;
+      card.style.transform = `translateY(-4px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=> card.style.transform = 'translateY(0) rotateX(0) rotateY(0)');
+  });
+
+  // Back to top toggle
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', ()=>{
+    toTop.style.display = (window.scrollY > 800) ? 'block' : 'none';
+  });
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+   window.open("Introduction To Cybersecurity.pdf", "_blank");
+</script>
+</body>
+</html>
