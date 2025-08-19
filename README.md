@@ -26,7 +26,10 @@ project-folder/
 4. Click the ⬇️ Download PDF button to open or download the PDF.
 
 🌐 Live Demo:
-   https://introduction-to-cybersecurity.vercel.app/
+https://introduction-to-cybersecurity.vercel.app/
+
+---
+
 🧑‍💻 Author
 **Ahad Parvaiz**
 
